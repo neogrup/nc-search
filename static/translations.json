@@ -1,0 +1,11 @@
+{
+  "en":{
+    "SEARCH_LINES_NOT_LINES": "No product has been found"
+  },
+  "es": {
+    "SEARCH_LINES_NOT_LINES": "No se ha encontrado ningún producto"
+  },
+  "ca":{
+    "SEARCH_LINES_NOT_LINES": "No s'ha trobat cap producte"
+  }
+}

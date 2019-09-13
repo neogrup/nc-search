@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>nc-search demo</title>
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
+    <script type="module">
+      import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
+      import '@polymer/iron-demo-helpers/demo-snippet';
+    </script>
+
+    <script type="module" src="../nc-search.js"></script>
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+        div{
+          height: 50%;
+          width: 500px;
+        }
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <!-- <div class="vertical-section-container centered"> -->
+      <h3>WEBPOS nc-search demo</h3>
+      <demo-snippet>
+        <template>
+          <demo-nc-search></demo-nc-search>
+        </template>
+      </demo-snippet>
+    <!-- </div> -->
+
+    <script type="module">
+        import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+        import '@polymer/iron-ajax/iron-ajax.js';
+    
+        class DemoNcSearch extends PolymerElement {
+    
+          static get template() {
+            return html`
+              <style>
+                :host{
+                  --app-accent-color: #FF9800;
+                }
+              </style>
+    
+              <iron-ajax id="getProductsListSearch"
+                  method="get"
+                  handle-as="json"
+                  loading="{{loading}}"
+                  last-response="{{dataProductsListSearch}}">
+              </iron-ajax>
+                
+              <div>
+                <nc-search
+                    id="search"
+                    language="es"
+                    search-type="product"
+                    search-start-at-character-number="2"
+                    list-data="[[dataProductsListSearch.data]]"
+                    on-search="_search">
+                </nc-search>
+              </div>
+            `;
+          }
+    
+          connectedCallback(){
+            super.connectedCallback();
+          }
+          
+          _search(searchString){
+            console.log('searchString')
+            this.$.getProductsListSearch.url = 'data/lines.json';
+            this.$.getProductsListSearch.generateRequest();
+          }
+        }
+        window.customElements.define('demo-nc-search', DemoNcSearch);
+      </script> 
+  </body>
+</html>
