@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/NEOGRUP/nc-search"
   },
-  "name": "@neogrup/nc-search-list",
+  "name": "@neogrup/nc-search",
   "version": "0.0.5",
   "resolutions": {
     "inherits": "2.0.3",
