@@ -10,7 +10,7 @@
     "url": "https://github.com/NEOGRUP/nc-search"
   },
   "name": "@neogrup/nc-search",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "resolutions": {
     "inherits": "2.0.3",
     "samsam": "1.1.3",
