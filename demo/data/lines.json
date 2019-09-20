@@ -1,91 +1,86 @@
 {
   "apiVersion": "1",
-  "systemTime": "2019-02-27T15:33:12.3258611+01:00",
-  "data": [
-    {
-      "code": "TEST1",
-      "name": "Test 1"
-    },
-    {
-      "code": "TEST2",
-      "name": "Test 2"
-    },
-    {
-      "code": "TEST3",
-      "name": "Test 3"
-    },
-    {
-      "code": "TEST4",
-      "name": "Test 4"
-    },
-    {
-      "code": "TEST5",
-      "name": "Test 5"
-    },
-    {
-      "code": "TEST6",
-      "name": "Test 6"
-    },
-    {
-      "code": "TEST7",
-      "name": "Test 7"
-    },
-    {
-      "code": "TEST8",
-      "name": "Test 8"
-    },
-    {
-      "code": "TEST9",
-      "name": "Test 9"
-    },
-    {
-      "code": "TEST10",
-      "name": "Test 10"
-    },
-    {
-      "code": "TEST11",
-      "name": "Test 11"
-    },
-    {
-      "code": "TEST12",
-      "name": "Test 12"
-    },
-    {
-      "code": "TEST13",
-      "name": "Test 13"
-    },
-    {
-      "code": "TEST14",
-      "name": "Test 14"
-    },
-    {
-      "code": "TEST15",
-      "name": "Test 15"
-    },
-    {
-      "code": "TEST16",
-      "name": "Test 16"
-    },
-    {
-      "code": "TEST17",
-      "name": "Test 17"
-    },
-    {
-      "code": "TEST18",
-      "name": "Test 18"
-    },
-    {
-      "code": "TEST19",
-      "name": "Test 19"
-    },
-    {
-      "code": "TEST20",
-      "name": "Test 20"
-    },
-    {
-      "code": "TEST21",
-      "name": "Test 21"
-    }
-  ],
+  "systemTime": "2019-09-20T11:23:12.7395742+02:00",
+  "data": {
+    "code": "R001",
+    "page": 1,
+    "totalPages": 1,
+    "totalProducts": 10,
+    "data": [
+      {
+        "code": "",
+        "content": [
+          {
+            "code": "R00186",
+            "name": "Coca Cola 1l",
+            "price": 2.99,
+            "urlImage": "imgprod/R002/P08/restauración/bebidas/marcas/marcaCocaCola.png"
+          },
+          {
+            "code": "R00045",
+            "name": "Coca Cola 20cl",
+            "price": 2.99,
+            "urlImage": "imgprod/R002/P08/restauración/bebidas/marcas/marcaCocaCola.png"
+          },
+          {
+            "code": "R00178",
+            "name": "Coca Cola 40cl",
+            "price": 1.99,
+            "behavior": "tarifa",
+            "urlImage": "imgprod/R002/P08/restauración/bebidas/marcas/marcaCocaCola.png"
+          },
+          {
+            "code": "R00182",
+            "name": "Coca Cola 60cl",
+            "price": 2.99,
+            "kitchenNoteGroup": "0000000003",
+            "urlImage": "imgprod/R002/P08/restauración/bebidas/marcas/marcaCocaCola.png"
+          },
+          {
+            "code": "R00001",
+            "name": "Coca Cola lata (la c",
+            "price": 1.99,
+            "kitchenNoteGroup": "0000000003",
+            "urlImage": "imgprod/R002/P08/restauración/bebidas/refrescos/cocaCola.png"
+          },
+          {
+            "code": "R00002",
+            "name": "Coca Cola Light lata",
+            "price": 1.99,
+            "kitchenNoteGroup": "0000000003",
+            "urlImage": "imgprod/R002/P08/restauración/bebidas/refrescos/CocaColaLight.png"
+          },
+          {
+            "code": "R00002b",
+            "name": "Coca Cola Light lata",
+            "price": 1.99,
+            "kitchenNoteGroup": "0000000003",
+            "urlImage": "imgprod/R002/P08/restauración/bebidas/refrescos/CocaColaLight.png"
+          },
+          {
+            "code": "R00002c",
+            "name": "Coca Cola Light lata",
+            "price": 1.99,
+            "kitchenNoteGroup": "0000000003",
+            "urlImage": "imgprod/R002/P08/restauración/bebidas/refrescos/CocaColaLight.png"
+          },
+          {
+            "code": "R00002d",
+            "name": "Coca Cola Light lata",
+            "price": 1.99,
+            "kitchenNoteGroup": "0000000003",
+            "urlImage": "imgprod/R002/P08/restauración/bebidas/refrescos/CocaColaLight.png"
+          },
+          {
+            "code": "R00003",
+            "name": "Coca Cola Zero lata",
+            "price": 1.99,
+            "kitchenNoteGroup": "0000000003",
+            "urlImage": "imgprod/R002/P08/restauración/bebidas/refrescos/cocaColaZero.png"
+          }
+        ]
+      }
+    ]
+  },
   "error": null
 }

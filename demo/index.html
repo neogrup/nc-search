@@ -18,7 +18,7 @@
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
         div{
-          height: 50%;
+          height: 300px;
           width: 500px;
         }
       </style>
@@ -45,37 +45,76 @@
               <style>
                 :host{
                   --app-accent-color: #FF9800;
+                  text-align: center;
+                }
+                paper-card{
+                  width: 300px;
+                  height: 300px;
+                }
+
+                nc-search{
+                  text-align: left;
                 }
               </style>
     
+
               <iron-ajax id="getProductsListSearch"
                   method="get"
                   handle-as="json"
-                  loading="{{loading}}"
-                  last-response="{{dataProductsListSearch}}">
+                  on-response="_handleGetProductsListSearchResponse">
               </iron-ajax>
                 
               <div>
-                <nc-search
-                    id="search"
-                    language="es"
-                    search-type="product"
-                    search-start-at-character-number="2"
-                    list-data="[[dataProductsListSearch.data]]"
-                    on-search="_search">
-                </nc-search>
+                <paper-card>
+                  <nc-search
+                      id="searchProducts"
+                      language="es"
+                      loading="{{loadingSearch}}"
+                      search-type="product"
+                      search-start-at-character-number="3"
+                      lines-data="[[productsListFound]]"
+                      data-ticket-products-search-lines-actions="[[dataTicketProductsSearchLinesActions]]"
+                      on-search="_searchProduct"
+                      on-product-show-info="_productShowInfo"
+                      on-product-selected="_productSelected">
+                  </nc-search>
+                </paper-card>
               </div>
             `;
           }
     
           connectedCallback(){
             super.connectedCallback();
+            this.dataTicketProductsSearchLinesActions = [];
+            this.dataTicketProductsSearchLinesActions.push({
+              "icon": "info",
+              "action": "_showInfo",
+              "order": 8
+            });
           }
           
-          _search(searchString){
-            console.log('searchString')
+          _searchProduct(e){
+            let searchString = e.detail;
+            this.loadingSearch = true;
+            console.log(searchString)
             this.$.getProductsListSearch.url = 'data/lines.json';
             this.$.getProductsListSearch.generateRequest();
+          }
+
+          _handleGetProductsListSearchResponse(e){
+            // Check pending requests
+            if (this.$.getProductsListSearch.activeRequests.length <= 1){
+              this.productsListFound = e.detail.response.data.data[0].content;
+              this.loadingSearch = false;
+            }
+          }
+
+          _productSelected(e){
+            console.log(e.detail.code)
+          }
+
+          _productShowInfo(e){
+            console.log(e.detail.code)
           }
         }
         window.customElements.define('demo-nc-search', DemoNcSearch);

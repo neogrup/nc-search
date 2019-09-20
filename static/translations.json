@@ -1,11 +1,14 @@
 {
   "en":{
+    "SEARCH_INPUT_TEXT": "Enter code, name, etc.",
     "SEARCH_LINES_NOT_LINES": "No product has been found"
   },
   "es": {
+    "SEARCH_INPUT_TEXT": "Introduzca código, nombre, etc.",
     "SEARCH_LINES_NOT_LINES": "No se ha encontrado ningún producto"
   },
   "ca":{
+    "SEARCH_INPUT_TEXT": "Introduïu codi, nom, etc.",
     "SEARCH_LINES_NOT_LINES": "No s'ha trobat cap producte"
   }
 }
