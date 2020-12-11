@@ -29,8 +29,10 @@ class NcSearch extends PolymerElement {
             language="{{language}}"
             loading="{{loading}}"
             lines-data="[[linesData]]"
+            search-type="[[searchType]]"
             data-ticket-products-search-lines-actions="[[dataTicketProductsSearchLinesActions]]"
-            on-product-selected-enter-pressed="_selectInputText">
+            data-ticket-customers-search-lines-actions="[[dataTicketCustomersSearchLinesActions]]"
+            on-item-selected-enter-pressed="_selectInputText">
         </nc-search-lines>
       </div>
 
@@ -53,17 +55,26 @@ class NcSearch extends PolymerElement {
         value: 3
       }, 
       linesData: Object,
-      dataTicketProductsSearchLinesActions: Array
+      dataTicketProductsSearchLinesActions: Array,
+      dataTicketCustomersSearchLinesActions: Array
     };
   }
 
   _search(e){
-    this.dispatchEvent(new CustomEvent('search', { detail: e.detail, bubbles: true, composed: true }));
+    if (this.searchType == 'product') {
+      this.dispatchEvent(new CustomEvent('product-search', { detail: e.detail, bubbles: true, composed: true }));
+    } else {
+      this.dispatchEvent(new CustomEvent('customer-search', { detail: e.detail, bubbles: true, composed: true }));
+    }
     this.shadowRoot.querySelector('nc-search-lines').set('insertAfterSearch',false);
   }
 
   _searchInsert(e){
-    this.dispatchEvent(new CustomEvent('search', { detail: e.detail, bubbles: true, composed: true }));
+    if (this.searchType == 'product') {
+      this.dispatchEvent(new CustomEvent('product-search', { detail: e.detail, bubbles: true, composed: true }));
+    } else {
+      this.dispatchEvent(new CustomEvent('customer-search', { detail: e.detail, bubbles: true, composed: true }));
+    }
     this.shadowRoot.querySelector('nc-search-lines').set('insertAfterSearch',true);
   }
 

@@ -1,14 +1,18 @@
 {
   "en":{
     "SEARCH_INPUT_TEXT": "Enter code, name, etc.",
-    "SEARCH_LINES_NOT_LINES": "No product has been found"
+    "SEARCH_LINES_NOT_LINES": "No results has been found"
   },
   "es": {
     "SEARCH_INPUT_TEXT": "Introduzca código, nombre, etc.",
-    "SEARCH_LINES_NOT_LINES": "No se ha encontrado ningún producto"
+    "SEARCH_LINES_NOT_LINES": "No se ha encontrado ningún resultado"
   },
   "ca":{
     "SEARCH_INPUT_TEXT": "Introduïu codi, nom, etc.",
-    "SEARCH_LINES_NOT_LINES": "No s'ha trobat cap producte"
+    "SEARCH_LINES_NOT_LINES": "No s'ha trobat cap resultat"
+  },
+  "fr":{
+    "SEARCH_INPUT_TEXT": "Entrez le code, le nom, etc.",
+    "SEARCH_LINES_NOT_LINES": "Aucun résultat trouvé"
   }
 }

@@ -72,11 +72,11 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
             <nc-search-lines-line
                 id="slot[[line.id]]" 
                 language="{{language}}" 
+                search-type="[[searchType]]"
                 line="{{line}}"
-                line-actions="[[dataTicketProductsSearchLinesActions]]" 
+                line-actions="[[linesActions]]" 
                 on-actions="_showLineActions" 
-                on-line-action-selected="_lineActionSelectedPrev" 
-                on-item-selected="_itemSelected">
+                on-line-action-selected="_lineActionSelectedPrev">
             </nc-search-lines-line>
           </template>
                     
@@ -88,7 +88,7 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
 
       <paper-dialog id="actions" vertical-align="top" dynamic-align>
         <div class="line-dialog-actions">
-          <template is="dom-repeat" items="{{dataTicketProductsSearchLinesActions}}">
+          <template is="dom-repeat" items="{{linesActions}}">
             <paper-icon-button icon="[[item.icon]]" class\$="[[_getLineActionClass(item)]]" on-tap="_lineActionSelected"></paper-icon-button>
           </template>
         </div>
@@ -98,6 +98,9 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
   static get properties() {
     return {
       language: String,
+      searchType: {
+        type: String,
+      },
       linesData: {
         type: Object,
         value: {},
@@ -111,7 +114,12 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
         type: Array,
         value: []
       },
-      dataTicketProductsSearchLinesActions: Array
+      linesActions: {
+        type: Array,
+        value: []
+      },
+      dataTicketProductsSearchLinesActions: Array,
+      dataTicketCustomersSearchLinesActions: Array
     };
   }
 
@@ -135,6 +143,14 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
 
   _linesDataChanged() {
     this.set('lines', []);
+    this.set('linesActions', []);
+
+    if (this.searchType == 'product') {
+      this.set('linesActions', this.dataTicketProductsSearchLinesActions);
+    } else {
+      this.set('linesActions', this.dataTicketCustomersSearchLinesActions);
+    }
+
     this.showNoLines = true;
     if (!this.linesData) return;
     if (this.linesData.length > 0) {
@@ -148,10 +164,16 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
   }
 
   _selectLine(){
+    console.log('_selectLine');
     if (this.linesData){
       if (this.linesData.length == 1){
-        this.dispatchEvent(new CustomEvent('product-selected-enter-pressed', {bubbles: true, composed: true }));
-        this.dispatchEvent(new CustomEvent('product-selected', {detail: this.linesData[0], bubbles: true, composed: true }));
+        if (this.searchType == 'product') {
+          console.log(this.linesData);
+          this.dispatchEvent(new CustomEvent('product-selected', {detail: this.linesData[0], bubbles: true, composed: true }));
+        } else {
+          this.dispatchEvent(new CustomEvent('customer-selected', {detail: this.linesData[0], bubbles: true, composed: true }));
+        }
+        this.dispatchEvent(new CustomEvent('item-selected-enter-pressed', {bubbles: true, composed: true }));
       }
     }
   }
@@ -178,7 +200,11 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
   }
 
   _showInfo(){
-    this.dispatchEvent(new CustomEvent('product-show-info', { detail: this._currentLine, bubbles: true, composed: true }));
+    if (this.searchType == 'product') {
+      this.dispatchEvent(new CustomEvent('product-show-info', { detail: this._currentLine, bubbles: true, composed: true }));
+    } else {
+      this.dispatchEvent(new CustomEvent('customer-show-info', { detail: this._currentLine, bubbles: true, composed: true }));
+    }
     this.shadowRoot.querySelector('#actions').close();
   }
 }
