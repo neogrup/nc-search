@@ -1,16 +1,33 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import '@polymer/paper-fab/paper-fab.js';
 import './nc-search-input.js';
 import './nc-search-lines.js';
+
 class NcSearch extends PolymerElement {
   static get template() {
     return html`
       <style>
-        :host{
+        :host {
           @apply --layout-vertical;
           height: 100%;
           width: 100%;
           font-size: var(--nc-doc-font-size);
         }
+
+        .add {
+          position: absolute;
+          bottom: 0px;
+          width: calc(100% - 10px);
+          margin-bottom: 10px;
+          @apply --layout-horizontal;
+          @apply --layout-center;
+          @apply --layout-center-justified;
+        }
+
+        paper-fab{
+        --paper-fab-background: var(--app-secondary-color);
+        --paper-fab-keyboard-focus-background: var(--app-secondary-color);
+      }
       </style>
       
       <div id="search-input">
@@ -35,7 +52,11 @@ class NcSearch extends PolymerElement {
             on-item-selected-enter-pressed="_selectInputText">
         </nc-search-lines>
       </div>
-
+      <template is="dom-if" if="{{showAddButton}}">
+        <div class="add">
+          <paper-fab icon="add" on-tap="_searchAdd"></paper-fab>
+        </div>
+      </template>
     `;
   }
   static get properties() {
@@ -56,7 +77,11 @@ class NcSearch extends PolymerElement {
       }, 
       linesData: Object,
       dataTicketProductsSearchLinesActions: Array,
-      dataTicketCustomersSearchLinesActions: Array
+      dataTicketCustomersSearchLinesActions: Array,
+      showAddButton: {
+        type: Boolean,
+        value: false
+      }
     };
   }
 
@@ -101,6 +126,20 @@ class NcSearch extends PolymerElement {
 
   setInputFocus(){
     this.shadowRoot.querySelector('nc-search-input').setInputFocus();
+  }
+
+  lineActionSelectedPrev(element){
+    if (this.shadowRoot.querySelector('nc-search-lines')){
+      this.shadowRoot.querySelector('nc-search-lines')._lineActionSelectedPrev(element);
+    }
+  }
+
+  _searchAdd(){
+    if (this.searchType == "product") {
+      // this.dispatchEvent(new CustomEvent('product-add', {bubbles: true, composed: true }));
+    } else {
+      this.dispatchEvent(new CustomEvent('customer-add', {bubbles: true, composed: true }));
+    }
   }
 }
 

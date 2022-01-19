@@ -116,7 +116,7 @@ class NcSearchLinesLine extends MixinSearch(PolymerElement) {
 
         <div class="line-actions">
           <template is="dom-if" if="{{showLinesActionsDialog}}">
-            <paper-icon-button icon="more-vert" on-tap="_showLineActions"></paper-icon-button>
+            <paper-icon-button icon="more-vert" on-tap="_openLineActions"></paper-icon-button>
           </template>
 
           <template is="dom-if" if="{{!showLinesActionsDialog}}">
@@ -174,20 +174,20 @@ class NcSearchLinesLine extends MixinSearch(PolymerElement) {
     return (searchType=='customer');
   }
 
-  _showLineActions(e){
-    this.dispatchEvent(new CustomEvent('actions', { detail: e.target, bubbles: true, composed: true }));
-  }
-
-  _lineActionSelected(e){
-    this.dispatchEvent(new CustomEvent('line-action-selected', { detail: e, bubbles: true, composed: true }));
-  }
-
   _selectLine() {
     if (this.searchType == 'product') {
       this.dispatchEvent(new CustomEvent('product-selected', {detail: this.line, bubbles: true, composed: true }));
     } else {
       this.dispatchEvent(new CustomEvent('customer-selected', {detail: this.line, bubbles: true, composed: true }));
     }
+  }
+
+  _lineActionSelected(e){
+    this.dispatchEvent(new CustomEvent('line-action-selected', { detail: e, bubbles: true, composed: true }));
+  }
+
+  _openLineActions(e){
+    this.dispatchEvent(new CustomEvent('open-line-actions', { detail: e.target, bubbles: true, composed: true }));
   }
 
   _formatPrice(price){
