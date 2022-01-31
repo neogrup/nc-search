@@ -17,11 +17,8 @@ class NcSearch extends PolymerElement {
         .add {
           position: absolute;
           bottom: 0px;
-          width: calc(100% - 10px);
+          left: calc(50% - 30px);
           margin-bottom: 10px;
-          @apply --layout-horizontal;
-          @apply --layout-center;
-          @apply --layout-center-justified;
         }
 
         paper-fab{
@@ -139,6 +136,12 @@ class NcSearch extends PolymerElement {
       // this.dispatchEvent(new CustomEvent('product-add', {bubbles: true, composed: true }));
     } else {
       this.dispatchEvent(new CustomEvent('customer-add', {bubbles: true, composed: true }));
+    }
+  }
+
+  refresh(){
+    if(typeof this.shadowRoot.querySelector('nc-search-input').refresh !== 'undefined') {
+      this.shadowRoot.querySelector('nc-search-input').refresh();
     }
   }
 }

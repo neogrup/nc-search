@@ -18,6 +18,23 @@ class NcSearchLinesLine extends MixinSearch(PolymerElement) {
           user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome and Opera */
         }
+
+        .row-center{
+          @apply --layout-horizontal;
+          @apply --layout-center;
+        }
+
+        .row-flex{
+          @apply --layout-flex;
+        }
+
+        .row-responsive{
+          @apply --layout-vertical;
+        }
+
+        .row-padding-vertical {
+          margin: 2px 0px;
+        }
         
         .line {
           position: relative;
@@ -66,9 +83,16 @@ class NcSearchLinesLine extends MixinSearch(PolymerElement) {
           @apply --layout-flex;
         }
 
-        .line-content-customer{
+        .line-content-customer {
           @apply --layout-vertical;
-          padding-left: 5px;
+          width: 100%;
+          padding: 10px 0px;
+        }
+
+        .line-content-customer-icon{
+          width: 24px;
+          height: 24px;
+          margin-right: 5px;
         }
 
         .line-content-customer-code {
@@ -76,10 +100,28 @@ class NcSearchLinesLine extends MixinSearch(PolymerElement) {
         }
 
         .line-content-customer-name {
+          font-size: 1.1em;
+          font-weight: 600;
         }
         
-        .line-actions{
-          /* font-size: 1em; */
+        .line-content-customer-tax-identification-code {
+          
+        }
+
+        .line-content-customer-contact-email {
+          color: #757575;
+        }
+
+        .line-content-customer-contact-tel {
+          color: #757575;
+        }
+
+        .line-content-customer-postal-address-detail{
+          color: #757575;
+        }
+        
+        iron-icon {
+          fill: #9E9E9E;
         }
 
         paper-ripple {
@@ -100,17 +142,66 @@ class NcSearchLinesLine extends MixinSearch(PolymerElement) {
             <div class="line-content-product">
               <div class="line-content-product-name">[[line.name]]</div>
             </div>
-            <div class="line-product-price">{{_formatPrice(line.price)]]</div>
+            <div class="line-product-price">{{_formatPrice(line.price)}}</div>
           </div>
         </template>
 
         <template is="dom-if" if="{{isCustomerLine}}">
           <div class="line-container-customer" on-tap="_selectLine">
             <div class="line-content-customer">
-              <div class="line-content-customer-code">[[line.code]]</div>
-              <div class="line-content-customer-name">[[line.name]]</div>
+
+              <div class="row-center row-padding-vertical">
+                <template is="dom-if" if="[[_lineHasValue(line.name)]]">
+                  <div class="row-center" style="width: 70%">
+                    <div class="line-content-customer-icon">
+                      <iron-icon icon="social:person"></iron-icon>  
+                    </div>
+                    <div class="line-content-customer-name">[[line.name]]</div>
+                  </div>
+                </template>
+
+                <template is="dom-if" if="[[_lineHasValue(line.taxIdentification.code)]]">
+                  <div class="row-center">
+                    <div class="line-content-customer-icon">
+                      <iron-icon icon="nc-icons:taxIdentification"></iron-icon>  
+                    </div>
+                    <div class="line-content-customer-tax-identification-code">[[line.taxIdentification.code]]</div>
+                  </div>
+                </template>
+              </div>
+
+              <div class="row-center row-padding-vertical">
+                <template is="dom-if" if="[[_lineHasValue(line.contact.email)]]">
+                  <div class="row-center" style="width: 70%">
+                    <div class="line-content-customer-icon">
+                      <iron-icon icon="mail"></iron-icon>  
+                    </div>
+                    <div class="line-content-customer-contact-email">[[line.contact.email]]</div>
+                  </div>
+                </template>
+
+                <template is="dom-if" if="[[_lineHasValue(line.contact.tel)]]">
+                  <div class="row-center">
+                    <div class="line-content-customer-icon">
+                      <iron-icon icon="communication:phone"></iron-icon>  
+                    </div>
+                    <div class="line-content-customer-contact-tel">[[line.contact.tel]]</div>
+                  </div>
+                </template>
+              </div>
+
+              <template is="dom-if" if="[[_lineHasValue(line.postalAddress.detail)]]">
+                <div class="row-center row-padding-vertical">
+                  <div class="line-content-customer-icon">
+                    <iron-icon icon="maps:place"></iron-icon>  
+                  </div>
+                  <div class="line-content-customer-postal-address-detail">[[_getFullPostalAddressDetail(line.postalAddress)]]</div>
+                </div>
+              </template>
+              
             </div>
           </div>
+
         </template>
 
 
@@ -194,6 +285,31 @@ class NcSearchLinesLine extends MixinSearch(PolymerElement) {
     if (price){
       return price + ' €';
     }
+  }
+
+  _lineHasValue(value){
+    return ((value === undefined) || (value == '')) ? false : true;
+  }
+
+  _getFullPostalAddressDetail(postalAddress){
+    let fullPostalAddress;
+
+    fullPostalAddress = postalAddress.detail;
+
+    if (postalAddress.postalCode){
+      fullPostalAddress = fullPostalAddress + " (" + postalAddress.postalCode;
+      if (postalAddress.city){
+        fullPostalAddress = fullPostalAddress + " - " + postalAddress.city + ")";
+      } else {
+        fullPostalAddress = fullPostalAddress + ")";
+      }
+    } else {
+      if (postalAddress.city){
+        fullPostalAddress = fullPostalAddress + " (" + postalAddress.city + ")";
+      }
+    }
+
+    return fullPostalAddress;
   }
 }
 

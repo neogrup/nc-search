@@ -121,6 +121,12 @@ class NcSearchInput extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
   setInputFocus(){
     this.$.search.focus();
   }
+
+  refresh(){
+    if (this.searchInputValue.length >= this.searchStartAtCharacterNumber){
+      this.dispatchEvent(new CustomEvent('input-search', { detail: this.searchInputValue, bubbles: true, composed: true }));
+    }
+  }
 }
 
 window.customElements.define('nc-search-input', NcSearchInput);
