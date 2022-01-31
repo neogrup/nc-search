@@ -2,12 +2,9 @@ import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import '@polymer/polymer/lib/elements/dom-if.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 import '@polymer/paper-card/paper-card.js';
-import '@polymer/paper-dialog/paper-dialog.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
-import { Debouncer } from '@polymer/polymer/lib/utils/debounce.js';
-import { timeOut } from '@polymer/polymer/lib/utils/async.js';
 import { AppLocalizeBehavior } from '@polymer/app-localize-behavior/app-localize-behavior.js';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { MixinSearch } from './nc-search-behavior.js';
@@ -18,7 +15,7 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
   static get template() {
     return html`
       <style>
-         ::-webkit-scrollbar {
+        ::-webkit-scrollbar {
           width: 15px;
         }
 
@@ -75,7 +72,7 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
                 search-type="[[searchType]]"
                 line="{{line}}"
                 line-actions="[[linesActions]]" 
-                on-actions="_showLineActions" 
+                on-open-line-actions="_openLineActions" 
                 on-line-action-selected="_lineActionSelectedPrev">
             </nc-search-lines-line>
           </template>
@@ -85,16 +82,9 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
           </template>
         </div>
       </paper-card>
-
-      <paper-dialog id="actions" vertical-align="top" dynamic-align>
-        <div class="line-dialog-actions">
-          <template is="dom-repeat" items="{{linesActions}}">
-            <paper-icon-button icon="[[item.icon]]" class\$="[[_getLineActionClass(item)]]" on-tap="_lineActionSelected"></paper-icon-button>
-          </template>
-        </div>
-      </paper-dialog>
     `;
   }
+
   static get properties() {
     return {
       language: String,
@@ -119,7 +109,11 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
         value: []
       },
       dataTicketProductsSearchLinesActions: Array,
-      dataTicketCustomersSearchLinesActions: Array
+      dataTicketCustomersSearchLinesActions: Array,
+      _currentLine: {
+        type: Object,
+        value: {}
+      }
     };
   }
 
@@ -164,7 +158,6 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
   }
 
   _selectLine(){
-    console.log('_selectLine');
     if (this.linesData){
       if (this.linesData.length == 1){
         if (this.searchType == 'product') {
@@ -178,14 +171,15 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
     }
   }
 
-  _showLineActions(element){
+  _openLineActions(element){
     this._currentLine = element.target.line;
-    this.shadowRoot.querySelector('#actions').positionTarget = element.detail;
-    this.shadowRoot.querySelector('#actions').open();
+    this.dispatchEvent(new CustomEvent('open-search-lines-line-actions', { detail: {element: element.detail, searchType: this.searchType}, bubbles: true, composed: true }));
   }
 
   _lineActionSelectedPrev(element){
-    this._currentLine = element.target.line;
+    if (element.target.line){
+      this._currentLine = element.target.line;
+    }
     this._lineActionSelected(element)
   }
 
@@ -196,6 +190,12 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
       case '_showInfo':
         this._showInfo();
         break;
+      case '_editCustomer':
+        this._editCustomer();
+        break;
+      case '_duplicateCustomer':
+        this._duplicateCustomer();
+        break;
     }
   }
 
@@ -205,7 +205,17 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
     } else {
       this.dispatchEvent(new CustomEvent('customer-show-info', { detail: this._currentLine, bubbles: true, composed: true }));
     }
-    this.shadowRoot.querySelector('#actions').close();
+    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', {bubbles: true, composed: true }));
+  }
+
+  _editCustomer(){
+    this.dispatchEvent(new CustomEvent('customer-edit', { detail: this._currentLine, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', {bubbles: true, composed: true }));
+  }
+
+  _duplicateCustomer(){
+    this.dispatchEvent(new CustomEvent('customer-duplicate', { detail: this._currentLine, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', {bubbles: true, composed: true }));
   }
 }
 
