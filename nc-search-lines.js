@@ -54,6 +54,11 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
           user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome and Opera */
         }
+
+        .lines-empty.tips{
+          text-align: left;
+          margin-top: 40px;
+        }
         
         .lines{
           height: 100%;
@@ -78,7 +83,34 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
           </template>
                     
           <template is="dom-if" if="{{showNoLines}}">
-            <p class="lines-empty">{{localize('SEARCH_LINES_NOT_LINES')}}</p>
+            <template is="dom-if" if="{{_checkSearchType('product')}}">
+              <p class="lines-empty">{{localize('SEARCH_LINES_NOT_LINES_PRODUCT')}}</p>
+              <div class="lines-empty tips">
+                <span>{{localize('SEARCH_LINES_NOT_LINES_PRODUCT_TIPS')}}</span>
+                <ul>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_PRODUCT_TIP_CODE')}}</li>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_PRODUCT_TIP_NAME')}}</li>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_PRODUCT_TIP_BARCODE')}}</li>
+                </ul>
+              </div>
+            </template>
+
+            <template is="dom-if" if="{{_checkSearchType('customer')}}">
+              <p class="lines-empty">{{localize('SEARCH_LINES_NOT_LINES_CUSTOMER')}}</p>
+              <div class="lines-empty tips">
+                <span>{{localize('SEARCH_LINES_NOT_LINES_CUSTOMER_TIPS')}}</span>
+                <ul>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_CUSTOMER_TIP_CODE')}}</li>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_CUSTOMER_TIP_NAME')}}</li>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_CUSTOMER_TIP_TAX_IDENTIFICATION_CODE')}}</li>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_CUSTOMER_TIP_TELEPHONE')}}</li>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_CUSTOMER_TIP_EMAIL')}}</li>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_CUSTOMER_TIP_ADDRESS')}}</li>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_CUSTOMER_TIP_CITY')}}</li>
+                  <li>{{localize('SEARCH_LINES_NOT_LINES_CUSTOMER_TIP_POSTAL_CODE')}}</li>
+                </ul>
+              </div>
+            </template>
           </template>
         </div>
       </paper-card>
@@ -216,6 +248,10 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
   _duplicateCustomer(){
     this.dispatchEvent(new CustomEvent('customer-duplicate', { detail: this._currentLine, bubbles: true, composed: true }));
     this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', {bubbles: true, composed: true }));
+  }
+
+  _checkSearchType(type){
+    return (type == this.searchType);
   }
 }
 
