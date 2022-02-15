@@ -119,6 +119,10 @@ class NcSearchLinesLine extends MixinSearch(PolymerElement) {
         .line-content-customer-postal-address-detail{
           color: #757575;
         }
+
+        .line-content-customer-description{
+          color: #757575;
+        }
         
         iron-icon {
           fill: #9E9E9E;
@@ -196,6 +200,15 @@ class NcSearchLinesLine extends MixinSearch(PolymerElement) {
                     <iron-icon icon="maps:place"></iron-icon>  
                   </div>
                   <div class="line-content-customer-postal-address-detail">[[_getFullPostalAddressDetail(line.postalAddress)]]</div>
+                </div>
+              </template>
+
+              <template is="dom-if" if="[[_lineHasValue(line.description)]]">
+                <div class="row-center row-padding-vertical">
+                  <div class="line-content-customer-icon">
+                    <iron-icon icon="info"></iron-icon>  
+                  </div>
+                  <div class="line-content-customer-description">[[line.description]]</div>
                 </div>
               </template>
               
