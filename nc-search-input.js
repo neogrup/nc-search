@@ -12,7 +12,7 @@ import { MixinSearch } from './nc-search-behavior.js';
 class NcSearchInput extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(PolymerElement)) {
   static get template() {
     return html`
-       <style>
+      <style>
         :host{
           display: block;
           -webkit-touch-callout: none; /* iOS Safari */
@@ -30,7 +30,7 @@ class NcSearchInput extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
       </style>
 
       <div>
-        <paper-input id="search" label="{{localize('SEARCH_INPUT_TEXT')}}" no-label-float on-keyup="_keyUp" value="{{searchInputValue}}">
+        <paper-input id="search" label="{{localize('SEARCH_INPUT_TEXT')}}" value="{{searchInputValue}}" no-label-float on-keyup="_keyUp" on-focused-changed="_focusChanged" >
           <paper-icon-button slot="suffix" on-click="_clearSearch" icon="clear">
           </paper-icon-button>
         </paper-input>
@@ -46,7 +46,10 @@ class NcSearchInput extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
         notify: true
       },
       searchType: String,
-      searchInputValue: String,
+      searchInputValue: {
+        type: String,
+        notify: true
+      },
       searchStartAtCharacterNumber: Number,
       target: {
         type: Object
@@ -120,6 +123,10 @@ class NcSearchInput extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
 
   setInputFocus(){
     this.$.search.focus();
+  }
+
+  _focusChanged(e){
+    this.dispatchEvent(new CustomEvent('input-search-focus-changed', {detail: e, bubbles: true, composed: true }));
   }
 
   refresh(){

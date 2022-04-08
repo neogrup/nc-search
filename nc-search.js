@@ -30,10 +30,12 @@ class NcSearch extends PolymerElement {
       <div id="search-input">
         <nc-search-input
             language="{{language}}"
+            search-input-value="{{searchInputValue}}"
             search-start-at-character-number="[[searchStartAtCharacterNumber]]"
             on-input-search="_search"
             on-input-search-insert="_searchInsert"
             on-input-insert="_insert"
+            on-input-search-focus-changed="_inputSearchFocusChanged"
             on-clear-list="_clearList">
         </nc-search-input>
       </div>
@@ -67,6 +69,10 @@ class NcSearch extends PolymerElement {
       searchType: {
         type: String,
         value: "product"
+      },
+      searchInputValue: {
+        type: String,
+        notify: true
       },
       searchStartAtCharacterNumber:{
         type: Number,
@@ -143,6 +149,11 @@ class NcSearch extends PolymerElement {
     if(typeof this.shadowRoot.querySelector('nc-search-input').refresh !== 'undefined') {
       this.shadowRoot.querySelector('nc-search-input').refresh();
     }
+  }
+
+  _inputSearchFocusChanged(e){
+    this.dispatchEvent(new CustomEvent('search-focus-changed', {detail: {element: e.detail, searchType: this.searchType}  , bubbles: true, composed: true }));  
+    
   }
 }
 
