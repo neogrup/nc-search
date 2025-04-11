@@ -11,6 +11,9 @@
   },
   "name": "@neogrup/nc-search",
   "version": "1.0.8",
+  "publishConfig": {
+    "access": "public"
+  },
   "resolutions": {
     "inherits": "2.0.3",
     "samsam": "1.1.3",
