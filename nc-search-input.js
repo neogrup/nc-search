@@ -83,7 +83,7 @@ class NcSearchInput extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
     }
     this.lastSearchTime = dateNow;
 
-    if ((result >= 300) && (result < 1000)) { // control if passed a "lot" of time, then launch
+    if ((result >= 500) && (result < 1000)) { // control if passed a "lot" of time, then launch
       if (this.searchInputValue.length >= this.searchStartAtCharacterNumber) {
         if (e.key == 'Enter') {
           if (this.enterPressed) {
@@ -104,7 +104,7 @@ class NcSearchInput extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
         this.enterPressed = false;
       }
       this._searchChangedDebouncer = Debouncer.debounce(this._searchChangedDebouncer,
-        timeOut.after(300),
+        timeOut.after(500),
         () => this._keyUp(e)
       );
     }
