@@ -10,7 +10,7 @@
     "url": "https://github.com/NEOGRUP/nc-search"
   },
   "name": "@neogrup/nc-search",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "publishConfig": {
     "access": "public"
   },
