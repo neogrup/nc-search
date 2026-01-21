@@ -1,4 +1,4 @@
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/paper-card/paper-card.js';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
@@ -57,12 +57,12 @@ class NcSearchInput extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
       lastSearchTime: {
         type: String,
         value: ''
-      } 
+      }
     };
   }
 
-  static get importMeta() { 
-    return import.meta; 
+  static get importMeta() {
+    return import.meta;
   }
 
   connectedCallback() {
@@ -73,32 +73,32 @@ class NcSearchInput extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
     this.loadResources(this.resolveUrl('./static/translations.json'));
   }
 
-  _keyUp(e){
+  _keyUp(e) {
     let dateNow = new Date();
     let result = 0;
 
-    if (this.lastSearchTime != ''){
-      result = dateNow.getTime() - this.lastSearchTime.getTime() 
+    if (this.lastSearchTime != '') {
+      result = dateNow.getTime() - this.lastSearchTime.getTime()
       // console.log('result: ', result);
     }
     this.lastSearchTime = dateNow;
-    
-    if (result >= 300){
-      if (this.searchInputValue.length >= this.searchStartAtCharacterNumber){
-        if (e.key == 'Enter'){
-          if (this.enterPressed){
+
+    if ((result >= 300) && (result < 1000)) { // control if passed a "lot" of time, then launch
+      if (this.searchInputValue.length >= this.searchStartAtCharacterNumber) {
+        if (e.key == 'Enter') {
+          if (this.enterPressed) {
             this.dispatchEvent(new CustomEvent('input-search-insert', { detail: this.searchInputValue, bubbles: true, composed: true }));
-          } else{
+          } else {
             this.dispatchEvent(new CustomEvent('input-insert', { detail: this.searchInputValue, bubbles: true, composed: true }));
           }
         } else {
           this.dispatchEvent(new CustomEvent('input-search', { detail: this.searchInputValue, bubbles: true, composed: true }));
         }
       } else {
-        this.dispatchEvent(new CustomEvent('clear-list', {bubbles: true, composed: true }));
+        this.dispatchEvent(new CustomEvent('clear-list', { bubbles: true, composed: true }));
       }
     } else {
-      if (e.key == 'Enter'){
+      if (e.key == 'Enter') {
         this.enterPressed = true;
       } else {
         this.enterPressed = false;
@@ -110,27 +110,27 @@ class NcSearchInput extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
     }
   }
 
-  _clearSearch(){
+  _clearSearch() {
     this.enterPressed = false;
     this.searchInputValue = '';
-    this.dispatchEvent(new CustomEvent('clear-list', {bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('clear-list', { bubbles: true, composed: true }));
   }
 
-  selectInputText(){
+  selectInputText() {
     this.$.search.focus();
     this.$.search.inputElement.inputElement.select();
   }
 
-  setInputFocus(){
+  setInputFocus() {
     this.$.search.focus();
   }
 
-  _focusChanged(e){
-    this.dispatchEvent(new CustomEvent('input-search-focus-changed', {detail: e, bubbles: true, composed: true }));
+  _focusChanged(e) {
+    this.dispatchEvent(new CustomEvent('input-search-focus-changed', { detail: e, bubbles: true, composed: true }));
   }
 
-  refresh(){
-    if (this.searchInputValue.length >= this.searchStartAtCharacterNumber){
+  refresh() {
+    if (this.searchInputValue.length >= this.searchStartAtCharacterNumber) {
       this.dispatchEvent(new CustomEvent('input-search', { detail: this.searchInputValue, bubbles: true, composed: true }));
     }
   }

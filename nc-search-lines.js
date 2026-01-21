@@ -1,4 +1,4 @@
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/polymer/lib/elements/dom-if.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 import '@polymer/paper-card/paper-card.js';
@@ -183,8 +183,8 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
     };
   }
 
-  static get importMeta() { 
-    return import.meta; 
+  static get importMeta() {
+    return import.meta;
   }
 
   static get observers() {
@@ -192,7 +192,7 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
       '_linesDataChanged(linesData)'
     ]
   }
-  
+
 
   connectedCallback() {
     super.connectedCallback();
@@ -216,40 +216,40 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
     if (this.linesData.length > 0) {
       this.showNoLines = false;
       this.set('lines', this.linesData);
-      if (this.insertAfterSearch){
+      if (this.insertAfterSearch) {
         this._selectLine();
         this.insertAfterSearch = false;
       }
     }
   }
 
-  _selectLine(){
-    if (this.linesData){
-      if (this.linesData.length == 1){
+  _selectLine() {
+    if (this.linesData) {
+      if (this.linesData.length == 1) {
         if (this.searchType == 'product') {
           //console.log(this.linesData);
-          this.dispatchEvent(new CustomEvent('product-selected', {detail: this.linesData[0], bubbles: true, composed: true }));
+          this.dispatchEvent(new CustomEvent('product-selected', { detail: this.linesData[0], bubbles: true, composed: true }));
         } else {
-          this.dispatchEvent(new CustomEvent('customer-selected', {detail: this.linesData[0], bubbles: true, composed: true }));
+          this.dispatchEvent(new CustomEvent('customer-selected', { detail: this.linesData[0], bubbles: true, composed: true }));
         }
-        this.dispatchEvent(new CustomEvent('item-selected-enter-pressed', {bubbles: true, composed: true }));
+        this.dispatchEvent(new CustomEvent('item-selected-enter-pressed', { bubbles: true, composed: true }));
       }
     }
   }
 
-  _openLineActions(element){
+  _openLineActions(element) {
     this._currentLine = element.target.line;
-    this.dispatchEvent(new CustomEvent('open-search-lines-line-actions', { detail: {element: element.detail, searchType: this.searchType}, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('open-search-lines-line-actions', { detail: { element: element.detail, searchType: this.searchType }, bubbles: true, composed: true }));
   }
 
-  _lineActionSelectedPrev(element){
-    if (element.target.line){
+  _lineActionSelectedPrev(element) {
+    if (element.target.line) {
       this._currentLine = element.target.line;
     }
     this._lineActionSelected(element)
   }
 
-  _lineActionSelected(element){
+  _lineActionSelected(element) {
     let lineAction = (element.model.item) ? element.model.item.action : element.detail.model.item.action;
 
     switch (lineAction) {
@@ -262,29 +262,45 @@ class NcSearchLines extends mixinBehaviors([AppLocalizeBehavior], MixinSearch(Po
       case '_duplicateCustomer':
         this._duplicateCustomer();
         break;
+      case '_linkCustomer':
+        this._linkCustomer();
+        break;
+      case '_assignCard':
+        this._assignCard();
+        break;
     }
   }
 
-  _showInfo(){
+  _showInfo() {
     if (this.searchType == 'product') {
       this.dispatchEvent(new CustomEvent('product-show-info', { detail: this._currentLine, bubbles: true, composed: true }));
     } else {
       this.dispatchEvent(new CustomEvent('customer-show-info', { detail: this._currentLine, bubbles: true, composed: true }));
     }
-    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', {bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', { bubbles: true, composed: true }));
   }
 
-  _editCustomer(){
+  _editCustomer() {
     this.dispatchEvent(new CustomEvent('customer-edit', { detail: this._currentLine, bubbles: true, composed: true }));
-    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', {bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', { bubbles: true, composed: true }));
   }
 
-  _duplicateCustomer(){
+  _linkCustomer() {
+    this.dispatchEvent(new CustomEvent('customer-link', { detail: this._currentLine, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', { bubbles: true, composed: true }));
+  }
+
+  _assignCard() {
+    this.dispatchEvent(new CustomEvent('customer-assign-card', { detail: this._currentLine, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', { bubbles: true, composed: true }));
+  }
+
+  _duplicateCustomer() {
     this.dispatchEvent(new CustomEvent('customer-duplicate', { detail: this._currentLine, bubbles: true, composed: true }));
-    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', {bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('close-search-lines-line-actions', { bubbles: true, composed: true }));
   }
 
-  _checkSearchType(type){
+  _checkSearchType(type) {
     return (type == this.searchType);
   }
 }
